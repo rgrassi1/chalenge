@@ -2,6 +2,8 @@ import React from 'react';
 import useFetchPosts from '../../hooks/useFetchPosts';
 import { Container } from './styles';
 import Header from '../../components/Header';
+import Summary from '../../components/Summary';
+import PostList from '../../components/PostList';
 
 const App: React.FC = () => {
   const { posts } = useFetchPosts();
@@ -9,7 +11,10 @@ const App: React.FC = () => {
   return (
     <Container>
       <Header />
-      {JSON.stringify(posts)}
+      <hr />
+      <Summary posts={posts} />
+      <hr />
+      <PostList posts={posts} />
     </Container>
   );
 };
