@@ -1,8 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import { FiSliders } from 'react-icons/fi';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
-import useFetchAuthors from '../../hooks/useFetchAuthors';
-import { usePosts } from '../../hooks/posts';
+import { useApp } from '../../hooks/app';
 import IOrder from '../../types/order';
 import { Container, DropDownButton } from './styles';
 
@@ -19,8 +18,7 @@ interface IDropDownProps {
 const DropDown: React.FC<IDropDownProps> = ({ order, setOrder }) => {
   const [visible, setVisible] = useState(false);
 
-  const { authors } = useFetchAuthors();
-  const { filterByAuthorId } = usePosts();
+  const { authors, filterByAuthorId } = useApp();
 
   function handleToggleVisible() {
     setVisible(!visible);
