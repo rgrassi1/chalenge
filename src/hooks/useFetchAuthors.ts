@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import IAuthor from '../models/author';
+import IAuthor from '../types/author';
 
 const useFetchAuthors = (): { authors: IAuthor[] } => {
   const [authors, setAuthors] = useState<IAuthor[]>([]);

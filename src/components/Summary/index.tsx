@@ -1,18 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { FiCalendar } from 'react-icons/fi';
-import IPost from '../../models/post';
+import useFetchSummary from '../../hooks/useFetchSummary';
 import { Container } from './styles';
 
-const lastPosts = 3;
-
-interface ISummaryProps {
-  posts: IPost[];
-}
-
-const Summary: React.FC<ISummaryProps> = ({ posts }) => {
-  const summaryPosts = useMemo(() => {
-    return posts.filter((_, idx) => idx < lastPosts);
-  }, [posts]);
+const Summary: React.FC = () => {
+  const { summary } = useFetchSummary({ latestPosts: 3 });
 
   return (
     <Container>
@@ -21,7 +13,7 @@ const Summary: React.FC<ISummaryProps> = ({ posts }) => {
         Most Recent Posts
       </h2>
       <ul>
-        {summaryPosts.map((post) => (
+        {summary.map((post) => (
           <li key={post.id}>
             <h3>{post.title}</h3>
           </li>

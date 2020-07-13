@@ -1,16 +1,27 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
+import { isAfter } from 'date-fns';
 import { FiList } from 'react-icons/fi';
-import useFetchAuthors from '../../hooks/useFetchAuthors';
-import IPost from '../../models/post';
+import { usePosts } from '../../hooks/posts';
 import { Container } from './styles';
+import DropDown from '../Dropdown';
 import Post from '../Post';
+import IOrder from '../../types/order';
 
-interface IListProps {
-  posts: IPost[];
-}
+const PostList: React.FC = () => {
+  const { posts } = usePosts();
+  const [order, setOrder] = useState<IOrder>({ type: 'desc' });
 
-const PostList: React.FC<IListProps> = ({ posts }) => {
-  const { authors } = useFetchAuthors();
+  const orderedPosts = useMemo(() => {
+    return posts.sort((curr, next) => {
+      const currDate = new Date(curr.metadata.publishedAt).getTime();
+      const nextDate = new Date(next.metadata.publishedAt).getTime();
+
+      if (order.type === 'desc') {
+        return isAfter(currDate, nextDate) ? -1 : 1;
+      }
+      return isAfter(currDate, nextDate) ? 1 : -1;
+    });
+  }, [posts, order]);
 
   return (
     <Container>
@@ -19,10 +30,11 @@ const PostList: React.FC<IListProps> = ({ posts }) => {
           <FiList />
           List Of Posts
         </h2>
+        <DropDown order={order} setOrder={setOrder} />
       </div>
       <ul>
-        {posts.map((post) => (
-          <Post post={post} authors={authors} key={post.id} />
+        {orderedPosts.map((post) => (
+          <Post post={post} key={post.id} />
         ))}
       </ul>
     </Container>
