@@ -31,7 +31,6 @@ const DropDown: React.FC<IDropDownProps> = ({ order, setOrder }) => {
   function handleOrderChange() {
     const type = order.type === 'asc' ? 'desc' : 'asc';
     setOrder({ ...order, type });
-    // sortByOrder({ type });
   }
 
   return (

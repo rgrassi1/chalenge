@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { format } from 'date-fns';
+import { useApp } from '../../hooks/app';
 import IPost from '../../types/post';
 import { Container } from './styles';
 
@@ -8,15 +9,18 @@ interface IPostProps {
 }
 
 const Post: React.FC<IPostProps> = ({ post }) => {
+  const { authors } = useApp();
+
   const postFormatted = useMemo(() => {
     return {
       ...post,
+      author: authors.find((author) => post.metadata.authorId === author.id),
       dateFormatted: format(
         new Date(post.metadata.publishedAt),
         'dd/MM/yyyy HH:mm:ss',
       ),
     };
-  }, [post]);
+  }, [post, authors]);
 
   return (
     <Container>

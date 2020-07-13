@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { isAfter } from 'date-fns';
 import { FiList } from 'react-icons/fi';
 import { useApp } from '../../hooks/app';
@@ -6,21 +6,27 @@ import { Container } from './styles';
 import DropDown from '../Dropdown';
 import Post from '../Post';
 import IOrder from '../../types/order';
+import IPost from '../../types/post';
 
 const PostList: React.FC = () => {
   const { posts } = useApp();
   const [order, setOrder] = useState<IOrder>({ type: 'desc' });
 
-  // const orderedPosts = useMemo(() => {
-  //   return posts.sort((curr, next) => {
-  //     const currDate = new Date(curr.metadata.publishedAt).getTime();
-  //     const nextDate = new Date(next.metadata.publishedAt).getTime();
-  //     if (isAfter(currDate, nextDate)) {
-  //       return order.type === 'desc' ? -1 : 1;
-  //     }
-  //     return order.type === 'desc' ? 1 : -1;
-  //   });
-  // }, [posts, order]);
+  const orderByData = useCallback(
+    (curr: IPost, next: IPost) => {
+      const currDate = new Date(curr.metadata.publishedAt).getTime();
+      const nextDate = new Date(next.metadata.publishedAt).getTime();
+      if (isAfter(currDate, nextDate)) {
+        return order.type === 'desc' ? -1 : 1;
+      }
+      return order.type === 'desc' ? 1 : -1;
+    },
+    [order],
+  );
+
+  const orderedPosts = useMemo(() => {
+    return posts.sort(orderByData);
+  }, [posts, orderByData]);
 
   return (
     <Container>
@@ -32,7 +38,7 @@ const PostList: React.FC = () => {
         <DropDown order={order} setOrder={setOrder} />
       </div>
       <ul>
-        {posts.map((post) => (
+        {orderedPosts.map((post) => (
           <Post post={post} key={post.id} />
         ))}
       </ul>
