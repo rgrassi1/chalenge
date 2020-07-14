@@ -25,8 +25,8 @@ const Post: React.FC<IPostProps> = ({ post }) => {
   return (
     <Container>
       <h3>{postFormatted.title}</h3>
-      <p>{postFormatted.body}</p>
-      <p>
+      <p role="paragraph">{postFormatted.body}</p>
+      <p role="paragraph">
         <span>{postFormatted.author?.name}</span>
         <span>{postFormatted.dateFormatted}</span>
       </p>
