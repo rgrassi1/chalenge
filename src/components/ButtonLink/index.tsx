@@ -17,7 +17,7 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
   children,
 }) => {
   return (
-    <Container href={url} target={target} rel={rel}>
+    <Container href={url} target={target} rel={rel} role="link">
       {Icon && <Icon size={24} style={{ marginRight: children ? 8 : 0 }} />}
       {children}
     </Container>
