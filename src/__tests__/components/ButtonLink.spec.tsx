@@ -24,7 +24,6 @@ describe('ButtonLink component', () => {
     expect(screen.getByRole('link').getAttribute('href')).toBe(
       'http://localhost',
     );
-    expect(screen.getByRole('link').textContent).toBe('Link');
 
     expect(screen.getByRole('link').childNodes.length).toBe(2);
     expect(screen.getByRole('link').childNodes[0].nodeName).toBe('svg');
